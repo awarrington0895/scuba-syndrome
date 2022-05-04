@@ -3,7 +3,7 @@ resource "aws_subnet" "web_a" {
   vpc_id                          = aws_vpc.scuba_syndrome.id
   availability_zone               = "us-east-1a"
   assign_ipv6_address_on_creation = true
-  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 00)
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 0)
 
 
   tags = {
@@ -17,7 +17,7 @@ resource "aws_subnet" "app_a" {
   vpc_id                          = aws_vpc.scuba_syndrome.id
   availability_zone               = "us-east-1a"
   assign_ipv6_address_on_creation = true
-  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 01)
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 1)
 
 
   tags = {
@@ -31,7 +31,7 @@ resource "aws_subnet" "db_a" {
   vpc_id                          = aws_vpc.scuba_syndrome.id
   availability_zone               = "us-east-1a"
   assign_ipv6_address_on_creation = true
-  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 02)
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 2)
 
 
   tags = {
@@ -45,7 +45,7 @@ resource "aws_subnet" "web_b" {
   vpc_id                          = aws_vpc.scuba_syndrome.id
   availability_zone               = "us-east-1b"
   assign_ipv6_address_on_creation = true
-  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 03)
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 3)
 
 
   tags = {
@@ -59,7 +59,7 @@ resource "aws_subnet" "app_b" {
   vpc_id                          = aws_vpc.scuba_syndrome.id
   availability_zone               = "us-east-1b"
   assign_ipv6_address_on_creation = true
-  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 04)
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 4)
 
 
   tags = {
@@ -73,7 +73,7 @@ resource "aws_subnet" "db_b" {
   vpc_id                          = aws_vpc.scuba_syndrome.id
   availability_zone               = "us-east-1b"
   assign_ipv6_address_on_creation = true
-  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 05)
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 5)
 
 
   tags = {
@@ -87,7 +87,7 @@ resource "aws_subnet" "web_c" {
   vpc_id                          = aws_vpc.scuba_syndrome.id
   availability_zone               = "us-east-1c"
   assign_ipv6_address_on_creation = true
-  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 06)
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 6)
 
 
   tags = {
@@ -101,7 +101,7 @@ resource "aws_subnet" "app_c" {
   vpc_id                          = aws_vpc.scuba_syndrome.id
   availability_zone               = "us-east-1c"
   assign_ipv6_address_on_creation = true
-  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 07)
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 7)
 
 
   tags = {
@@ -115,7 +115,7 @@ resource "aws_subnet" "db_c" {
   vpc_id                          = aws_vpc.scuba_syndrome.id
   availability_zone               = "us-east-1c"
   assign_ipv6_address_on_creation = true
-  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 08)
+  ipv6_cidr_block                 = cidrsubnet(aws_vpc.scuba_syndrome.ipv6_cidr_block, 8, 8)
 
 
   tags = {
