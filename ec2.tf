@@ -71,9 +71,21 @@ resource "aws_instance" "bastion_host" {
   ami = data.aws_ami.aws_linux_ami.id
   subnet_id = aws_subnet.web_b.id
   key_name = aws_key_pair.kp.key_name
-  security_groups = [aws_security_group.bastion_host.id]
+  vpc_security_group_ids = [aws_security_group.bastion_host.id]
 
   tags = {
     Name = "BastionHost"
+  }
+}
+
+# Private EC2 for NAT testing
+resource "aws_instance" "private_nat_test" {
+  instance_type = "t2.micro"
+  ami = data.aws_ami.aws_linux_ami.id
+  subnet_id = aws_subnet.app_b.id
+  key_name = aws_key_pair.kp.key_name
+
+  tags = {
+    Name = "PrivateInstanceAppB"
   }
 }
