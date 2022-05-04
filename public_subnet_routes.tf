@@ -20,17 +20,13 @@ resource "aws_route_table" "public_route_table" {
   }
 }
 
-resource "aws_route_table_association" "web_a" {
-  route_table_id = aws_route_table.public_route_table.id
-  subnet_id      = aws_subnet.web_a.id
-}
+resource "aws_route_table_association" "public_subnets" {
+  for_each = {
+    "web_a" = aws_subnet.web_a.id,
+    "web_b" = aws_subnet.web_b.id,
+    "web_c" = aws_subnet.web_c.id
+  }
 
-resource "aws_route_table_association" "web_b" {
   route_table_id = aws_route_table.public_route_table.id
-  subnet_id      = aws_subnet.web_b.id
-}
-
-resource "aws_route_table_association" "web_c" {
-  route_table_id = aws_route_table.public_route_table.id
-  subnet_id      = aws_subnet.web_c.id
+  subnet_id = each.value
 }

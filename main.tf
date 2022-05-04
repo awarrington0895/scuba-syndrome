@@ -23,130 +23,35 @@ resource "aws_internet_gateway" "ssigw" {
   }
 }
 
-# Setup NAT connectivity
-resource "aws_eip" "nat_a" {
-  vpc = true
-}
-
-resource "aws_eip" "nat_b" {
-  vpc = true
-}
-
-resource "aws_eip" "nat_c" {
-  vpc = true
-}
-
-resource "aws_nat_gateway" "web_a" {
-  connectivity_type = "public"
-  allocation_id = aws_eip.nat_a.id
-  subnet_id = aws_subnet.web_a.id
+# VPC Endpoint
+resource "aws_vpc_endpoint" "s3" {
+  service_name    = "com.amazonaws.us-east-1.s3"
+  vpc_id          = aws_vpc.scuba_syndrome.id
+  route_table_ids = [
+    aws_route_table.pvt_az_a.id,
+    aws_route_table.pvt_az_b.id,
+    aws_route_table.pvt_az_c.id
+  ]
 
   tags = {
-    Name = "NATGWWEBA"
+    Name = "EndpointS3"
   }
-
-  depends_on = [aws_internet_gateway.ssigw]
 }
 
-resource "aws_nat_gateway" "web_b" {
-  connectivity_type = "public"
-  allocation_id = aws_eip.nat_b.id
-  subnet_id = aws_subnet.web_b.id
+resource "aws_vpc_endpoint" "sns" {
+  service_name = "com.amazonaws.us-east-1.sns"
+  vpc_id       = aws_vpc.scuba_syndrome.id
+  vpc_endpoint_type = "Interface"
+
+  subnet_ids = [
+    aws_subnet.app_a.id,
+    aws_subnet.web_b.id,
+    aws_subnet.web_c.id
+  ]
+
+  private_dns_enabled = true
 
   tags = {
-    Name = "NATGWWEBB"
+    Name = "EndpointSNS"
   }
-
-  depends_on = [aws_internet_gateway.ssigw]
-}
-
-resource "aws_nat_gateway" "web_c" {
-  connectivity_type = "public"
-  allocation_id = aws_eip.nat_c.id
-  subnet_id = aws_subnet.web_c.id
-
-  tags = {
-    Name = "NATGWWEBC"
-  }
-
-
-  depends_on = [aws_internet_gateway.ssigw]
-}
-
-resource "aws_route_table_association" "nat_rt_assoc_a" {
-  for_each = {
-    "app_a" = aws_subnet.app_a.id,
-    "db_a" = aws_subnet.db_a.id
-  }
-
-  route_table_id = aws_route_table.nat_rt_a.id
-  subnet_id = each.value
-}
-
-resource "aws_route_table" "nat_rt_a" {
-  vpc_id = aws_vpc.scuba_syndrome.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.web_a.id
-  }
-
-  tags = {
-    Name = "PrivateRTAZA"
-  }
-}
-
-resource "aws_route_table_association" "nat_rt_assoc_b" {
-  for_each = {
-    "app_b" = aws_subnet.app_b.id,
-    "db_b" = aws_subnet.db_b.id
-  }
-
-  route_table_id = aws_route_table.nat_rt_b.id
-  subnet_id = each.value
-}
-
-resource "aws_route_table" "nat_rt_b" {
-  vpc_id = aws_vpc.scuba_syndrome.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.web_b.id
-  }
-
-  route {
-    ipv6_cidr_block = "::/0"
-    egress_only_gateway_id = aws_egress_only_internet_gateway.eigw.id
-  }
-
-  tags = {
-    Name = "PrivateRTAZB"
-  }
-}
-
-resource "aws_route_table_association" "nat_rt_assoc_c" {
-  for_each = {
-    "app_c" = aws_subnet.app_c.id,
-    "db_c" = aws_subnet.db_c.id
-  }
-
-  route_table_id = aws_route_table.nat_rt_c.id
-  subnet_id = each.value
-}
-
-resource "aws_route_table" "nat_rt_c" {
-  vpc_id = aws_vpc.scuba_syndrome.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.web_c.id
-  }
-
-  tags = {
-    Name = "PrivateRTAZC"
-  }
-}
-
-resource "aws_egress_only_internet_gateway" "eigw" {
-  vpc_id = aws_vpc.scuba_syndrome.id
 }
